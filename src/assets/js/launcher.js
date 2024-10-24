@@ -18,7 +18,7 @@ const fs = require('fs');
 class Launcher {
     async init() {
         this.initLog();
-        console.log('Initializing Launcher...');
+        console.log('Iniciando Launcher...');
         this.shortcut()
         await setBackground()
         if (process.platform == 'win32') this.initFrame();
@@ -84,7 +84,7 @@ class Launcher {
     }
 
     async initConfigClient() {
-        console.log('Initializing Config Client...')
+        console.log('Iniciando configuracion del cliente...')
         let configClient = await this.db.readData('configClient')
 
         if (!configClient) {

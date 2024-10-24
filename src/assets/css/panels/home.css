@@ -184,8 +184,8 @@
 .social-block {
     display: flex;
     background: var(--background-transparent);
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
     margin-bottom: 1rem;
     border-radius: 10px;
     font-size: 2rem;
@@ -247,11 +247,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .play-instance {
     display: flex;
     justify-content: space-between;
+    background: black;
     align-items: center;
     position: relative;
     border: solid 3px var(--element-color);
@@ -263,7 +265,7 @@
 .play-btn {
     border: none;
     border-radius: 10px;
-    background: none;
+    background: black;
     color: var(--color);
     font-size: 2rem;
     font-weight: bolder;
