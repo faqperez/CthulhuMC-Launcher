@@ -1,8 +1,8 @@
 {
     "name": "CthulhuMC",
     "preductname": "CthulhuMC Launcher",
-    "version": "3.0.1",
-    "description": "CthulhuMC modded server launcher",
+    "version": "3.0.2",
+    "description": "CthulhuMC modded server Launcher",
     "main": "src/app.js",
     "author": "Riptiaz/Boulldogo/Vexato/Luuxis",
     "settings": "https://cthulhumc.com/dev",
