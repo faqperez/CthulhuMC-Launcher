@@ -159,14 +159,14 @@ class Login {
         const azauth = this.config.azauth;
                const newuserurl = `${azauth}/user/register`;
                this.newuser = document.querySelector(".new-user");
-               this.newuser.innerHTML = "Pas de compte ?";
+               this.newuser.innerHTML = "¿Sin cuenta? Registrate";
                this.newuser.addEventListener('click', () => {
                    shell.openExternal(newuserurl);
                });
        
                const passwordreseturl = `${azauth}/user/password/reset`;
                this.passwordreset = document.querySelector(".password-reset");
-               this.passwordreset.innerHTML = "Mot de passe oublié ?";
+               this.passwordreset.innerHTML = "¿Olvidaste tu contraseña?";
                this.passwordreset.addEventListener('click', () => {
                    shell.openExternal(passwordreseturl);
                });
