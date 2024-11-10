@@ -1,34 +1,32 @@
-CentralCorp Launcher
+## Descripción
+Un launcher totalmente sincronizado con tu sitio Azuriom y totalmente personalizable desde un panel.
 
-## Description
-Un launcher entièrement synchronisé avec votre site Azuriom et entièrement personnalisable depuis un panel.
+## Configuración del lanzador
 
-## Configuration du Launcher
+### Paso 1: Clonar el proyecto
+- Comience por bifurcar este proyecto haciendo clic en el botón "Bifurcar" en la parte superior derecha de esta página.
+- Clona el proyecto en tu computadora usando Git o GitHub Desktop.
 
-### Étape 1: Cloner le Projet
-- Commencez par forker ce projet en cliquant sur le bouton "Fork" en haut à droite de cette page.
-- Clonez le projet vers votre ordinateur en utilisant Git ou GitHub Desktop.
+### Paso 2: Alojar el panel
+- Descargar el código fuente del panel desde el repositorio [CentralCorp-Panel](https://github.com/Riptiaz/CentralCorp-Panel) y alojarlo en un servidor web PHP.
+- Asegúrate de tener una base de datos limpia y lista para usar.
 
-### Étape 2: Hébergement du Panel
-- Téléchargez le code source du panel à partir du dépôt [CentralCorp-Panel](https://github.com/Riptiaz/CentralCorp-Panel) et hébergez-le sur un serveur web PHP.
-- Assurez-vous d'avoir une base de données vierge prête à être utilisée.
+### Paso 3: Configurar el lanzador
+- Abre el archivo 'package.json' del lanzador que clonaste.
+- Edite los siguientes campos según sea necesario:
+    - 'name': Nombre de tu lanzador
+    - 'description': Descripción del lanzador
+    - 'settings': URL de tu panel
 
-### Étape 3: Configuration du Launcher
-- Ouvrez le fichier `package.json` du launcher que vous avez cloné.
-- Modifiez les champs suivants selon vos besoins :
-    - `name`: Nom de votre launcher
-    - `description`: Description du launcher
-    - `settings`: URL de votre panel
+### Paso 4: Acceso al Panel
+- Accede al panel desde la URL que has introducido anteriormente.
+- Se le pedirá su información de inicio de sesión en la base de datos. Infórmeles.
+- Crea una cuenta para acceder al lanzador. Tenga en cuenta que solo es posible crear una cuenta.
+- Una vez iniciada la sesión, tendrás acceso al panel donde podrás personalizar diferentes opciones.
 
-### Étape 4: Accès au Panel
-- Accédez au panel depuis l'URL que vous avez renseignée précédemment.
-- Les informations de connexion à votre base de données vous seront demandées. Renseignez-les.
-- Créez un compte pour accéder au launcher. Notez qu'il n'est possible de créer qu'un seul compte.
-- Une fois connecté, vous aurez accès au panel où vous pourrez personnaliser différentes options.
+### Personalización
+- Puede personalizar varios aspectos del lanzador según sus necesidades.
+- Asegúrate de rellenar las URLs de tu sitio Azuriom y servidor FTP en el panel.
 
-### Personnalisation
-- Vous pouvez personnaliser divers aspects du launcher selon vos besoins.
-- Assurez-vous de renseigner les URL de votre site Azuriom et de votre serveur FTP dans le panel.
-
-## Besoin d'Aide ?
-Si vous avez besoin d'assistance ou des questions, n'hésitez pas à nous rejoindre sur notre [Discord](https://discord.gg/VCmNXHvf77). Nous serons ravis de vous aider !
+## ¿Necesitas ayuda?
+Si necesitas ayuda o preguntas, no dudes en unirte a nosotros en nuestro [Discord](https://discord.gg/VCmNXHvf77). ¡Estaremos encantados de ayudarte!
