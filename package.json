@@ -1,11 +1,11 @@
 {
-    "name": "Conflictura",
-    "preductname": "Conflictura Launcher",
-    "version": "3.0.0",
-    "description": "Conflictura modded server launcher",
+    "name": "CthulhuMC",
+    "preductname": "CthulhuMC Launcher",
+    "version": "3.0.1",
+    "description": "CthulhuMC modded server launcher",
     "main": "src/app.js",
     "author": "Riptiaz/Boulldogo/Vexato/Luuxis",
-    "settings": "https://dev.conflictura.eu",
+    "settings": "https://cthulhumc.com/dev",
     "engines": {
         "node": "16.x.x"
     },
@@ -34,6 +34,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Riptiaz/CentralCorp-Launcher.git"
+        "url": "git+https://github.com/faqperez/CthulhuMC-Launcher.git"
     }
 }
