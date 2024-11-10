@@ -46,7 +46,7 @@ class Login {
 
         if (this.config.role === true && account.user_info.role) {
             const blockRole = document.createElement("div");
-            blockRole.innerHTML = `<div>Grade: ${account.user_info.role.name}</div>`;
+            blockRole.innerHTML = `<div>Rol: ${account.user_info.role.name}</div>`;
             document.querySelector('.player-role').appendChild(blockRole);
         } else {
             document.querySelector(".player-role").style.display = "none";
@@ -65,12 +65,12 @@ class Login {
             document.querySelector(".play-btn").style.backgroundColor = "#696969";
             document.querySelector(".play-btn").style.pointerEvents = "none";
             document.querySelector(".play-btn").style.boxShadow = "none";
-            document.querySelector(".play-btn").textContent = "Indisponible";
+            document.querySelector(".play-btn").textContent = "No disponible";
         } else {
             document.querySelector(".play-btn").style.backgroundColor = "#00bd7a";
             document.querySelector(".play-btn").style.pointerEvents = "auto";
             document.querySelector(".play-btn").style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.3)";
-            document.querySelector(".play-btn").textContent = "Jouer";
+            document.querySelector(".play-btn").textContent = "Jugar";
         }
         
         
@@ -134,7 +134,7 @@ class Login {
     }
 
     getOnline() {
-        console.log(`Initializing Az Panel...`);
+        console.log(`Iniciando Panel Az...`);
         this.loginAzAuth();
         document.querySelector('.cancel-login').addEventListener("click", () => {
             document.querySelector(".cancel-login").style.display = "none";
@@ -214,7 +214,7 @@ class Login {
 
         loginBtn2f.addEventListener("click", async () => {
             if (a2finput.value == "") {
-                infoLogin2f.innerHTML = "Entrez votre code a2f";
+                infoLogin2f.innerHTML = "Introduce tu código a2f";
                 return;
             }
             const azAuth = new AZauth(azauth);
@@ -222,7 +222,7 @@ class Login {
             await azAuth.login(mailInput.value, passwordInput.value, a2finput.value).then(async account_connect => {
                 console.log(account_connect);
                 if (account_connect.error) {
-                    infoLogin2f.innerHTML = 'Code a2f invalide';
+                    infoLogin2f.innerHTML = 'Código a2f no válido';
                     return;
                 }
                 const account = {
@@ -266,11 +266,11 @@ class Login {
             loginBtn.disabled = true;
             mailInput.disabled = true;
             passwordInput.disabled = true;
-            infoLogin.innerHTML = "Connexion en cours...";
+            infoLogin.innerHTML = "Conectando...";
 
             if (mailInput.value == "") {
                 console.log(mailInput.value);
-                infoLogin.innerHTML = "Entrez votre pseudo";
+                infoLogin.innerHTML = "Introducir nick";
                 cancelMojangBtn.disabled = false;
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
@@ -279,7 +279,7 @@ class Login {
             }
 
             if (passwordInput.value == "") {
-                infoLogin.innerHTML = "Entrez votre mot de passe";
+                infoLogin.innerHTML = "Introduce tu contraseña";
                 cancelMojangBtn.disabled = false;
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
@@ -303,7 +303,7 @@ class Login {
                     loginBtn.disabled = false;
                     mailInput.disabled = false;
                     passwordInput.disabled = false;
-                    infoLogin.innerHTML = 'Votre compte est banni';
+                    infoLogin.innerHTML = 'Tu cuenta esta baneada';
                     return;
                 }
 
@@ -358,7 +358,7 @@ class Login {
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
                 passwordInput.disabled = false;
-                infoLogin.innerHTML = 'Adresse E-mail ou mot de passe invalide';
+                infoLogin.innerHTML = 'Dirección de correo electrónico o contraseña incorrecta';
             });
         });
     }

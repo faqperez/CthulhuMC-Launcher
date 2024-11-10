@@ -229,7 +229,7 @@ class Settings {
 
     async initJavaPath() {
         let javaDatabase = (await this.database.get('1234', 'java-path'))?.value?.path;
-        let javaPath = javaDatabase ? javaDatabase : 'Utiliser la version de java livre avec le launcher';
+        let javaPath = javaDatabase ? javaDatabase : 'Utilice la versión de Java con el launcher';
         document.querySelector(".info-path").textContent = `${dataDirectory.replace(/\\/g, "/")}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
 
         let path = document.querySelector(".path");
@@ -249,12 +249,12 @@ class Settings {
             if (file.value.replace(".exe", '').endsWith("java") || file.value.replace(".exe", '').endsWith("javaw")) {
                 this.database.update({ uuid: "1234", path: file.value }, 'java-path');
                 path.value = file.value.replace(/\\/g, "/");
-            } else alert("Le nom du fichier doit être java ou javaw");
+            } else alert("El nombre del archivo debe ser java o javaw.");
 
         });
 
         document.querySelector(".path-button-reset").addEventListener("click", () => {
-            path.value = 'Utiliser la version de java livre avec le launcher';
+            path.value = 'Utilice la versión de Java con el launcher';
             file.value = '';
             this.database.update({ uuid: "1234", path: false }, 'java-path');
         });
@@ -314,7 +314,7 @@ class Settings {
         if (!fs.existsSync(modsDir) || fs.readdirSync(modsDir).length === 0) {
             modElement.innerHTML = `
             <div class="mods-container-empty">
-              <h2>⚠️ Les mods optionnels n'ont pas encore étés téléchargés. Veuillez lancer une première fois le jeu pour pouvoir les configurer. ⚠️<h2>
+              <h2>⚠️ Aún no se han descargado mods opcionales. Inicie el juego por primera vez para poder configurarlos. ⚠️<h2>
             </div>`;
             modsListElement.appendChild(modElement);
     
@@ -353,7 +353,7 @@ class Settings {
         const data = await response.json();
     
         if (!data.optionalMods || !data.mods) {
-            console.error('La réponse API ne contient pas "optionalMods" ou "mods".');
+            console.error('La respuesta de la API no contiene "mods opcionales" ni "mods".');
             return;
         }
     
@@ -361,10 +361,10 @@ class Settings {
             const modElement = document.createElement('div');
             const modInfo = data.mods[mod];
             if (!modInfo) {
-                console.error(`Les informations pour le mod "${mod}" sont manquantes dans "mods".`);
+                console.error(`Falta información para el mod "${mod}" en "mods".`);
                 modElement.innerHTML = `
                 <div class="mods-container">
-                  <h2>Les informations pour le mod ${mod} n'ont pas étés mises par les administrateurs.<h2>
+                  <h2>La información del mod ${mod} no fue añadida por los administradores.<h2>
                    <div class="switch">
                       <input type="checkbox" id="${mod}" name="mod" value="${mod}" ${modsConfig[mod] ? 'checked' : ''}>
                       <label class="switch-label" for="${mod}"></label>
@@ -384,7 +384,7 @@ class Settings {
                   <div class="mods-container-text">
                     <div class="mods-container-name">                    
                         <h2>${modName}</h2>
-                        <div class="mods-recommanded" style="display: none;">Recommandé</div>
+                        <div class="mods-recommanded" style="display: none;">Recomendado</div>
                     </div>
                     <div class="mod-description">${modDescription}</div>
                   </div>
@@ -430,14 +430,14 @@ class Settings {
             const file = input.files[0];
             if (!file) return; 
             if (file.type !== 'image/png') {
-                alert('Le fichier doit être une image PNG.');
+                alert('El archivo debe ser una imagen PNG.');
                 return;
             }
             const img = new Image();
             img.src = URL.createObjectURL(file);
             img.onload = async () => {
                 if (img.width !== 64 || img.height !== 64) {
-                    alert('L\'image doit faire 64x64 pixels.');
+                    alert('L\'La imagen debe tener 64x64 píxeles.');
                     return;
                 }
     
@@ -447,7 +447,7 @@ class Settings {
     }
     async processSkinChange(file) {
         if (!file) {
-            console.error('No file provided');
+            console.error('No se proporcionó ningún archivo');
             return;
         }
     
@@ -465,10 +465,10 @@ class Settings {
         xhr.onload = async () => {
             console.log(`XHR Response: ${xhr.response}`);  // Log pour la réponse
             if (xhr.status === 200) {
-                console.log('Skin updated successfully!');
+                console.log('¡Skin actualizado exitosamente!');
                 await this.initPreviewSkin();  // Appel asynchrone de la méthode
             } else {
-                console.error(`Failed to update skin. Status code: ${xhr.status}`);
+                console.error(`No se pudo actualizar la Skin. Código de estado: ${xhr.status}`);
             }
         };
     

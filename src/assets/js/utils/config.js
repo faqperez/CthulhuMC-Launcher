@@ -54,8 +54,8 @@ class Config {
         } else {
             // Aucun article disponible, ajoutez un message ou faites autre chose
             data.push({
-                title: "Aucun article disponible",
-                content: "Aucun article n'a été trouvé.",
+                title: "No hay artículos disponibles",
+                content: "No se encontraron artículos.",
                 author: "",
                 publish_date: "2024"
             });

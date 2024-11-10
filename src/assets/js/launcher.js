@@ -20,7 +20,7 @@ import Settings from './panels/settings.js';
 class Launcher {
     async init() {
         this.initLog();
-        console.log("Initializing Launcher...");
+        console.log("Iniciando Launcher...");
         if (process.platform == "win32") this.initFrame();
         this.config = await config.GetConfig().then(res => res);
         this.news = await config.GetNews().then(res => res);
@@ -64,7 +64,7 @@ class Launcher {
 
 
     initFrame() {
-        console.log("Initializing Frame...")
+        console.log("Iniciando Frame...")
         document.querySelector(".frame").classList.toggle("hide")
         document.querySelector(".dragbar").classList.toggle("hide")
 
@@ -90,7 +90,7 @@ class Launcher {
     createPanels(...panels) {
         let panelsElem = document.querySelector(".panels")
         for (let panel of panels) {
-            console.log(`Initializing ${panel.name} Panel...`);
+            console.log(`Iniciando ${panel.name} Panel...`);
             let div = document.createElement("div");
             div.classList.add("panel", panel.id)
             div.innerHTML = fs.readFileSync(`${__dirname}/panels/${panel.id}.html`, "utf8");
@@ -113,7 +113,7 @@ class Launcher {
                 if (account.meta.type === 'AZauth') {
                     let refresh = await AZAuth.verify(account);
                     console.log(refresh);
-                    console.log(`Initializing Mojang account ${account.name}...`);
+                    console.log(`Iniciando cuenta Mojang ${account.name}...`);
                     let refresh_accounts;
     
                     if (refresh.error) {
