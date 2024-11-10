@@ -1,13 +1,13 @@
 {
     "name": "CthulhuMC",
     "preductname": "CthulhuMC Launcher",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "description": "CthulhuMC modded server Launcher",
     "main": "src/app.js",
     "author": "Riptiaz/Boulldogo/Vexato/Luuxis",
     "settings": "https://cthulhumc.com/dev",
     "engines": {
-        "node": "16.x.x"
+        "node": "20.x.x"
     },
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
