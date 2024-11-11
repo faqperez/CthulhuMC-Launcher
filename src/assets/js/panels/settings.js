@@ -103,7 +103,7 @@ class Settings {
             document.querySelector(".play-btn").style.backgroundColor = "#00bd7a";
             document.querySelector(".play-btn").style.pointerEvents = "auto";
             document.querySelector(".play-btn").style.boxShadow = "2px 2px 5px rgba(0, 0, 0, 0.3)";
-            document.querySelector(".play-btn").textContent = "Jouer";
+            document.querySelector(".play-btn").textContent = "Jugar";
         }
         const urlPattern = /^(http:\/\/|https:\/\/)/;
         if (account.user_info.role.name === this.config.role_data.role1.name) {
