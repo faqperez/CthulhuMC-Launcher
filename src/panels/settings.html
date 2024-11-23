@@ -1,47 +1,54 @@
 <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <div class="settings-content">
-    <div class="bottom-bar-home">
-        <div class="player-head-settings">
-            <div class="green-point"></div>
-        </div>
-        <div class="little-bar-home">
-            <button class="home-btn-2 icon-home"></button>
-        </div>
-        <button class="settings-btn icon-settings"></button>
-      </div>
-    </div>
     <div class="tabs-settings-btn">
-        <button style="margin-top: 40px;" class="icon-users tab-btn-css tab-btn active-tab-btn default-tab-btn" > Cuentas</button>
-        <button class="icon-terminal tab-btn-css tab-btn"> Configuracion RAM</button>
-        <button class="icon-wrench tab-btn-css tab-btn"> Launcher</button>
-        <button class="icon-rocket tab-btn-css tab-btn"> Mods Optionales</button>
-        <button class="icon-rocket tab-btn-css tab-btn"> Skin</button>
-        <br>
-        <br>
-        <button class="tab-btn-css-settings save-tabs-btn"> Guardar</button>
-        <button id="github" class="icon-github tab-btn-git"> GitHub</button>
+        <button style="margin-top: 40px;" class="tab-btn-css tab-btn active-tab-btn default-tab-btn">
+            <i class="fas fa-user"></i>
+            <span>Cuentas</span>
+        </button>
+        <button class="tab-btn-css tab-btn">
+            <i class="fab fa-java"></i>
+            <span>RAM</span>
+        </button>
+        <button class="tab-btn-css tab-btn">
+            <i class="fas fa-rocket"></i>
+            <span>Launcher</span>
+        </button>
+        <button class="tab-btn-css tab-btn">
+            <i class="fas fa-puzzle-piece"></i>
+            <span>Mods</span>
+        </button>
+        <button class="tab-btn-css tab-btn">
+            <i class="fas fa-tshirt"></i>
+            <span>Skin</span>
+        </button>
+        <button class="tab-btn-css save-tabs-btn">
+            <i class="fas fa-save"></i>
+            <span>Guardar</span>
+        </button>
     </div>
 
     <div class="tabs-settings-content active-tab-content">
         <div class="center-align">
-            <button class="add-account">Agregar cuenta</button>
+            <button class="add-account">
+                <i class="fas fa-plus"></i> <span>Agregar una cuenta</span>
+            </button>
             <div class="accounts"></div>
         </div>
     </div>
 
+
     <div class="tabs-settings-content">
         <div class="settings-content-scroll">
-            <div class="title-settings">Configuraciones para tu RAM.</div>
-            <div class="avert">
-                <div class="information">❗ Importante: Asignar mucha RAM a tu juego es fundamental. De hecho, éste no podrá funcionar correctamente con menos de 3 GB de RAM asignada.</div></div>
+            <div class="title-settings">Conbfigurar RAM.</div>
             <div class="java-settings">
                 <div class="information">
-                    Definición de RAM asignada: La RAM asignada es la RAM que se le da a tu juego cuando se inicia. Una cantidad mayor aumentará el rendimiento de tu juego.<br> Ten en cuenta que debes evitar colocar una cantidad demasiado grande de RAM, de lo contrario, puede causar pérdidas de rendimiento en tu
+                    Definición de la RAM asignada a tu juego, una cantidad mayor aumentará el rendimiento de tu juego.<br> Ten en cuenta que debes evitar poner una cantidad demasiado grande, de lo contrario, puede causar pérdidas de rendimiento en tu
                     otras aplicaciones.
                     <br><br>
                     <b>- RAM máxima:</b> Indica la cantidad total de RAM asignada a tu juego. Se recomienda no exceder el 50% de la cantidad total de RAM presente en tu PC para que pueda funcionar correctamente. Si tu computadora
                     tiene más de 8GB de RAM, recomendamos asignarle 3GB. Si su computadora tiene 4 GB o menos, no asigne más de 2 GB.<br><br>
-                    <b>- RAM mínima:</b> Indica la cantidad mínima de RAM asignada al iniciar tu juego. Se recomienda no poner más de 3 GB para este valor. El valor típico es 1 GB.<br><br>
+                    <b>- RAM mínima:</b> Indica la cantidad mínima de RAM asignada al iniciar tu juego. Se recomienda no poner más de 3 GB para este valor. El valor típico es 1 GB.
                 </div>
                 <div class="ram-info">
                     <div class="memory-slider" min="0.5" max="8" step="0.5">
@@ -55,38 +62,28 @@
                             <span></span>
                         </div>
                     </div>
-                    <br>
+
                     <div class="ram-info-block">
-                        <br><b>Tienes un total de <span id="total-ram">0 GB</span> de RAM.</b><br>
-                        <b>Tienes un total de <span id="free-ram">0 GB</span> de RAM disponible.</b>
+                        <b>Tienes un total de <span id="total-ram">0 Go</span> RAM.</b><br>
+                        <b>Tienes un total de <span id="free-ram">0 Go</span> RAM disponible.</b>
                     </div>
                 </div>
             </div>
-            <br>
         </div>
     </div>
-    
+
     <div class="tabs-settings-content">
         <div class="center-page">
             <div class="title-settings">Configuración después de iniciar el juego.</div>
             <div class="java-settings">
-            <div class="information">
-                <br>Explicaciones: Esta configuración definirá lo que hará el iniciador una vez que se inicie el juego.<br>
-                - Cerrar el iniciador después de iniciar el juego significa que se cerrará tan pronto como comience el juego.<br>
-                - Cerrar el juego si el iniciador está cerrado significa que si cierras el iniciador, tu juego se cerrará inmediatamente después.<br>
-                - Mantener el iniciador abierto después de iniciar el juego significa que permanecerá abierto después de iniciar el juego.
-            <div>
-            <div class="java-settings">
                 <div class="information">
-                    <input type="checkbox" class="checkbox-settings" id="launcher-close"><label for="launcher-close"><div class="checkround"></div></label> Cierra el iniciador después de iniciar el juego..</br>
-                    <input type="checkbox" class="checkbox-settings" id="launcher-close-all"><label for="launcher-close-all"><div class="checkround"></div></label> Cierra el juego si el lanzador está cerrado..</br>
-                    <input type="checkbox" class="checkbox-settings" id="launcher-open"><label for="launcher-open"><div class="checkround"></div></label> Mantenga el iniciador abierto después de iniciar el juego..
+                    <input type="checkbox" class="checkbox-settings" id="launcher-close"><label for="launcher-close"><div class="checkround"></div></label> Cerrar launcher al iniciar Minecraft.</br>
+                    <input type="checkbox" class="checkbox-settings" id="launcher-close-all"><label for="launcher-close-all"><div class="checkround"></div></label> Cerrar Minecraft si el launcher esta cerrado.</br>
+                    <input type="checkbox" class="checkbox-settings" id="launcher-open"><label for="launcher-open"><div class="checkround"></div></label> Mantener launcher abierto al iniciar Minecraft.
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 <div class="tabs-settings-content">
     <div class="settings-content-scroll">

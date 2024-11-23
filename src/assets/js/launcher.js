@@ -7,21 +7,20 @@
 
 // libs 
 const fs = require('fs');
-const { Microsoft, Mojang, AZauth } = require('minecraft-java-core');
+const { Microsoft, Mojang, AZauth } = require('minecraft-java-core-azbetter');
 const pkg = require('../package.json');
 const { ipcRenderer } = require('electron');
 const DiscordRPC = require('discord-rpc');
 
-import { config, changePanel, database, addAccount, accountSelect } from './utils.js';
+import { config, logger, changePanel, database, addAccount, accountSelect } from './utils.js';
 import Login from './panels/login.js';
 import Home from './panels/home.js';
 import Settings from './panels/settings.js';
-import Logger from './Logger.js';
 
 class Launcher {
     async init() {
-        this.initWindow();
-        console.log("Initializing Launcher...");
+        this.initLog();
+        console.log("Iniciando Launcher...");
         if (process.platform == "win32") this.initFrame();
         this.config = await config.GetConfig().then(res => res);
         this.news = await config.GetNews().then(res => res);
@@ -30,213 +29,42 @@ class Launcher {
         this.getaccounts();
         this.initDiscordRPC();
     }
-    async refreshData() {
-
-      document.querySelector('.player-role').innerHTML = '';
-      document.querySelector('.player-monnaie').innerHTML = '';
-      
-      await this.initOthers();
-      await this.initPreviewSkin();
-    }
-    async initPreviewSkin() {
-        console.log('initPreviewSkin called');
-        const websiteUrl = this.config.azauth;
-        let uuid = (await this.database.get('1234', 'accounts-selected')).value;
-        let account = (await this.database.get(uuid.selected, 'accounts')).value;
-  
-        let title = document.querySelector('.player-skin-title');
-        title.innerHTML = `Skin de ${account.name}`;
-  
-        const skin = document.querySelector('.skin-renderer-settings');
-        const cacheBuster = new Date().getTime();
-        const url = `${websiteUrl}/skin3d/3d-api/skin-api/${account.name}?_=${cacheBuster}`;
-        skin.src = url;
-    }
     
 
-    initWindow(){
-        window.logger = {
-          launcher: new Logger("Launcher", "#FF7F18"),
-          minecraft: new Logger("Minecraft", "#43B581")
-        }
-    
-        this.initLogs();
-    
-        window.console = window.logger.launcher;
-    
-        window.onerror = (message, source, lineno, colno, error) => {
-          console.error(error);
-          source = source.replace(`${window.location.origin}/app/`, "");
-          let stack = error.stack.replace(new RegExp(`${window.location.origin}/app/`.replace(/\//g, "\\/"), "g"), "").replace(/\n/g, "<br>").replace(/\x20/g, "&nbsp;");
-          popup.showPopup("Une erreur est survenue", `
-            <b>Erreur:</b> ${error.message}<br>
-            <b>Fichier:</b> ${source}:${lineno}:${colno}<br>
-            <b>Stacktrace:</b> ${stack}`, "warning",
-            {
-              value: "Relancer",
-              func: () => {
-                document.body.classList.add("hide");
-                win.reload()
-              }
-            }
-          );
-          document.body.classList.remove("hide");
-          return true;
-        };
-    
-        window.onclose = () => {
-          localStorage.removeItem("distribution");
-        }
-      }
-    
-
-      initLogs(){
-        let logs = document.querySelector(".log-bg");
-    
-        let block = false;
+    initLog() {
         document.addEventListener("keydown", (e) => {
-          if ((e.ctrlKey && e.shiftKey && e.keyCode == 73 || event.keyCode == 123) && !block) {
-            logs.classList.toggle("show");
-            block = true;
-          }
-        });
-    
-        document.addEventListener("keyup", (e) => {
-          if (e.ctrlKey && e.shiftKey && e.keyCode == 73 || event.keyCode == 123) block = false;
-        });
-    
-        let close = document.querySelector(".log-close");
-    
-        close.addEventListener("click", () => {
-          logs.classList.toggle("show");
-        })
-    
-        /* launcher logs */
-    
-        let launcher = document.querySelector("#launcher.logger");
-    
-        launcher.querySelector(".header").addEventListener("click", () => {
-          launcher.classList.toggle("open");
-        });
-    
-        let lcontent = launcher.querySelector(".content");
-    
-        logger.launcher.on("info", (...args) => {
-          addLog(lcontent, "info", args);
-        });
-    
-        logger.launcher.on("warn", (...args) => {
-          addLog(lcontent, "warn", args);
-        });
-    
-        logger.launcher.on("debug", (...args) => {
-          addLog(lcontent, "debug", args);
-        });
-    
-        logger.launcher.on("error", (...args) => {
-          addLog(lcontent, "error", args);
-        });
-    
-        /* minecraft logs */
-    
-        let minecraft = document.querySelector("#minecraft.logger");
-    
-        minecraft.querySelector(".header").addEventListener("click", () => {
-          minecraft.classList.toggle("open");
-        });
-    
-        let mcontent = minecraft.querySelector(".content");
-    
-        logger.minecraft.on("info", (...args) => {
-          addLog(mcontent, "info", args);
-        });
-    
-        logger.minecraft.on("warn", (...args) => {
-          addLog(mcontent, "warn", args);
-        });
-    
-        logger.minecraft.on("debug", (...args) => {
-          addLog(mcontent, "debug", args);
-        });
-    
-        logger.minecraft.on("error", (...args) => {
-          addLog(mcontent, "error", args);
-        });
-    
-        /* add log */
-    
-        function addLog(content, type, args){
-          let final = [];
-          for(let arg of args){
-            if(typeof arg == "string"){
-              final.push(arg);
-            } else if(arg instanceof Error) {
-              let stack = arg.stack.replace(new RegExp(`${window.location.origin}/app/`.replace(/\//g, "\\/"), "g"), "")
-              final.push(stack);
-            } else if(typeof arg == "object"){
-              final.push(JSON.stringify(arg));
-            } else {
-              final.push(arg);
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73 || e.keyCode == 123) {
+                ipcRenderer.send("main-window-dev-tools");
             }
-          }
-          let span = document.createElement("span");
-          span.classList.add(type);
-          span.innerHTML = `${final.join(" ")}<br>`.replace(/\x20/g, "&nbsp;").replace(/\n/g, "<br>");
-    
-          content.appendChild(span);
-        }
-      }
-    
+        })
+        new logger('Launcher', '#7289da')
+    }
     
     initDiscordRPC() {
-
-        if (process.env.NODE_ENV === 'dev') {
-            const rpc = new DiscordRPC.Client({ transport: 'ipc' });
-            rpc.on('ready', () => {
-                const presence = {
-                    details: 'Dev FrontierLauncher',
-                    state: 'Check Github',
-                    largeImageKey: 'frontier',
-                    largeImageText: 'FrontierLauncher',
-                    smallImageKey: 'small',
-                    smallImageText: this.config.rpc_small_text,
-                    buttons: [
-                        { label: this.config.rpc_button1, url: this.config.rpc_button1_url },
-                        { label: this.config.rpc_button2, url: this.config.rpc_button2_url }
-                    ]
-                };
-                rpc.setActivity(presence);
-            });
-            rpc.login({ clientId: this.config.rpc_id }).catch(console.error);
-          } else {
-            if (this.config.rpc_activation === true) {
-                const rpc = new DiscordRPC.Client({ transport: 'ipc' });
-                rpc.on('ready', () => {
-                    const presence = {
-                        details: this.config.rpc_details,
-                        state: this.config.rpc_state,
-                        largeImageKey: 'frontier',
-                        largeImageText: this.config.rpc_large_text,
-                        smallImageKey: 'small',
-                        smallImageText: this.config.rpc_small_text,
-                        buttons: [
-                            { label: this.config.rpc_button1, url: this.config.rpc_button1_url },
-                            { label: this.config.rpc_button2, url: this.config.rpc_button2_url }
-                        ]
-                    };
-                    rpc.setActivity(presence);
-                });
-                rpc.login({ clientId: this.config.rpc_id }).catch(console.error);
-                }  
-          }
-
-          console.log(process.env.NODE_ENV);
-
+        if (this.config.rpc_activation === true) {
+        const rpc = new DiscordRPC.Client({ transport: 'ipc' });
+        rpc.on('ready', () => {
+            const presence = {
+                details: this.config.rpc_details,
+                state: this.config.rpc_state,
+                largeImageKey: 'large',
+                largeImageText: this.config.rpc_large_text,
+                smallImageKey: 'small',
+                smallImageText: this.config.rpc_small_text,
+                buttons: [
+                    { label: this.config.rpc_button1, url: this.config.rpc_button1_url },
+                    { label: this.config.rpc_button2, url: this.config.rpc_button2_url }
+                ]
+            };
+            rpc.setActivity(presence);
+        });
+        rpc.login({ clientId: this.config.rpc_id }).catch(console.error);
+    }
 }
 
 
     initFrame() {
-        console.log("Initializing Frame...")
+        console.log("Iniciando Frame...")
         document.querySelector(".frame").classList.toggle("hide")
         document.querySelector(".dragbar").classList.toggle("hide")
 
@@ -262,7 +90,7 @@ class Launcher {
     createPanels(...panels) {
         let panelsElem = document.querySelector(".panels")
         for (let panel of panels) {
-            console.log(`Initializing ${panel.name} Panel...`);
+            console.log(`Iniciando ${panel.name} Panel...`);
             let div = document.createElement("div");
             div.classList.add("panel", panel.id)
             div.innerHTML = fs.readFileSync(`${__dirname}/panels/${panel.id}.html`, "utf8");
@@ -272,11 +100,11 @@ class Launcher {
     }
 
     async getaccounts() {
-        let azauth = this.config.azauth
+        let azauth = this.config.azauth;
         const AZAuth = new AZauth(azauth);
         let accounts = await this.database.getAll('accounts');
         let selectaccount = (await this.database.get('1234', 'accounts-selected'))?.value?.selected;
-
+    
         if (!accounts.length) {
             changePanel("login");
         } else {
@@ -285,16 +113,16 @@ class Launcher {
                 if (account.meta.type === 'AZauth') {
                     let refresh = await AZAuth.verify(account);
                     console.log(refresh);
-                    console.log(`Initializing Azuriom account ${account.name}...`);
+                    console.log(`Iniciando cuenta Mojang ${account.name}...`);
                     let refresh_accounts;
-
+    
                     if (refresh.error) {
                         this.database.delete(account.uuid, 'accounts');
-                        if (account.uuid === selectaccount) this.database.update({ uuid: "1234" }, 'accounts-selected')
+                        if (account.uuid === selectaccount) this.database.update({ uuid: "1234" }, 'accounts-selected');
                         console.error(`[Account] ${account.uuid}: ${refresh.errorMessage}`);
                         continue;
                     }
-
+    
                     refresh_accounts = {
                         access_token: refresh.access_token,
                         client_token: refresh.uuid,
@@ -308,34 +136,150 @@ class Launcher {
                         user_info: {
                             role: refresh.user_info.role,
                             monnaie: refresh.user_info.money,
+                            verified: refresh.user_info.verified,
                         },
+                    };
+                    if (this.config.email_verified === true && account.user_info.verified === false) {
+                        this.database.delete(account.uuid, 'accounts');
+                        if (account.uuid === selectaccount) this.database.update({ uuid: "1234" }, 'accounts-selected');
                     }
-
                     this.database.update(refresh_accounts, 'accounts');
                     addAccount(refresh_accounts);
-                    if (account.uuid === selectaccount) accountSelect(refresh.uuid)
+                    if (account.uuid === selectaccount) accountSelect(refresh.uuid);
                 } else {
                     this.database.delete(account.uuid, 'accounts');
-                    if (account.uuid === selectaccount) this.database.update({ uuid: "1234" }, 'accounts-selected')
+                    if (account.uuid === selectaccount) this.database.update({ uuid: "1234" }, 'accounts-selected');
                 }
             }
             if (!(await this.database.get('1234', 'accounts-selected')).value.selected) {
-                let uuid = (await this.database.getAll('accounts'))[0]?.value?.uuid
+                let uuid = (await this.database.getAll('accounts'))[0]?.value?.uuid;
                 if (uuid) {
-                    this.database.update({ uuid: "1234", selected: uuid }, 'accounts-selected')
-                    accountSelect(uuid)
+                    this.database.update({ uuid: "1234", selected: uuid }, 'accounts-selected');
+                    accountSelect(uuid);
                 }
             }
-
+    
             if ((await this.database.getAll('accounts')).length == 0) {
                 changePanel("login");
                 document.querySelector(".preload-content").style.display = "none";
-                return
+                return;
             }
             changePanel("home");
+            this.refreshData();
         }
         document.querySelector(".preload-content").style.display = "none";
     }
     
+    async refreshData() {
+
+        document.querySelector('.player-role').innerHTML = '';
+        document.querySelector('.player-monnaie').innerHTML = '';
+        
+        await this.initOthers();
+        await this.initPreviewSkin();
+    }
+    async initPreviewSkin() {
+        console.log('initPreviewSkin called');
+        const websiteUrl = this.config.azauth;
+        let uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        let account = (await this.database.get(uuid.selected, 'accounts')).value;
+    
+        let title = document.querySelector('.player-skin-title');
+        title.innerHTML = `Skin de ${account.name}`;
+    
+        const skin = document.querySelector('.skin-renderer-settings');
+        const cacheBuster = new Date().getTime();
+        const url = `${websiteUrl}/skin3d/3d-api/skin-api/${account.name}?_=${cacheBuster}`;
+        skin.src = url;
+    }
+    async initOthers() {
+        let ram = (await this.database.get('1234', 'ram')).value;
+        const uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        const account = (await this.database.get(uuid.selected, 'accounts')).value;
+        
+        if (this.config.role === true && account.user_info.role) {
+            const blockRole = document.createElement("div");
+            blockRole.innerHTML = `<div>Grade: ${account.user_info.role.name}</div>`;
+            document.querySelector('.player-role').appendChild(blockRole);
+        } else {
+            document.querySelector(".player-role").style.display = "none";
+        }
+
+        if (this.config.money === true) {
+            const blockMonnaie = document.createElement("div");
+            blockMonnaie.innerHTML = `<div>${account.user_info.monnaie} pts</div>`;
+            document.querySelector('.player-monnaie').appendChild(blockMonnaie);
+        } else {
+            document.querySelector(".player-monnaie").style.display = "none";
+        }
+        if (this.config.whitelist_activate === true && 
+            (!this.config.whitelist.includes(account.name) &&
+             !this.config.whitelist_roles.includes(account.user_info.role.name))) {
+            document.querySelector(".play-btn").style.backgroundColor = "#696969";
+            document.querySelector(".play-btn").style.pointerEvents = "none";
+            document.querySelector(".play-btn").style.boxShadow = "none";
+            document.querySelector(".play-btn").textContent = "Indisponible";
+             }
+        const urlPattern = /^(http:\/\/|https:\/\/)/;
+        if (account.user_info.role.name === this.config.role_data.role1.name) {
+            if (urlPattern.test(this.config.role_data.role1.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role1.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role2.name) {
+            if (urlPattern.test(this.config.role_data.role2.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role2.background}) black no-repeat center center scroll`;
+            }else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role3.name) {
+            if (urlPattern.test(this.config.role_data.role3.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role3.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role4.name) {
+            if (urlPattern.test(this.config.role_data.role4.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role4.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role5.name) {
+            if (urlPattern.test(this.config.role_data.role5.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role5.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role6.name) {
+            if (urlPattern.test(this.config.role_data.role6.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role6.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role7.name) {
+            if (urlPattern.test(this.config.role_data.role7.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role7.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        }
+        if (account.user_info.role.name === this.config.role_data.role8.name) {
+            if (urlPattern.test(this.config.role_data.role1.background) === true) {
+            document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${this.config.role_data.role8.background}) black no-repeat center center scroll`;
+            } else {
+                document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("../src/assets/images/background/light.jpg") black no-repeat center center scroll`;
+            }
+        } 
+    }
 }
+
 new Launcher().init();
+
+
