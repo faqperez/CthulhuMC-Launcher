@@ -7,7 +7,7 @@
     "author": "Vermucito",
     "settings": "https://cthulhumc.com/dev",
     "engines": {
-        "node": "20.x.x"
+        "node": "16.x.x"
     },
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
@@ -20,16 +20,16 @@
     },
     "dependencies": {
         "discord-rpc": "^4.0.1",
-        "electron-updater": "^6.1.4",
+        "electron-updater": "^5.0.1",
         "https": "^1.0.0",
-        "minecraft-java-core-azbetter": "^3.11.3",
+        "minecraft-java-core": "^3.6.2",
         "node-fetch": "^2.6.7",
         "xml-js": "^1.6.11"
     },
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "electron": "^22.3.24",
-        "electron-builder": "^24.6.4",
+        "electron": "^19.0.7",
+        "electron-builder": "^23.0.3",
         "nodemon": "^2.0.16"
     },
     "repository": {

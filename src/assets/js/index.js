@@ -50,12 +50,12 @@ class Splash {
             else this.checkUpdate();
         }).catch(e => {
             console.error(e);
-            return this.shutdown("No se detectó ninguna conexión a Internet.<br>Vuelve a intentarlo más tarde.");
+            return this.shutdown("No se detectó ninguna conexión a Internet.<br>Vuelve a intentarlo más tarde. Si te quedas atascado en esta página, únete a nuestro discordia para obtener ayuda.");
         })
     }
 
     async checkUpdate() {
-        this.setStatus(`Buscando actualizaciones...`);
+        this.setStatus(`Buscar actualizaciones...`);
         ipcRenderer.send('update-app');
 
         ipcRenderer.on('updateAvailable', () => {
@@ -75,7 +75,7 @@ class Splash {
 
 
     startLauncher() {
-        this.setStatus(`Démarrage du launcher`);
+        this.setStatus(`Iniciando el lanzador/launcher`);
         ipcRenderer.send('main-window-open');
         ipcRenderer.send('update-window-close');
     }
